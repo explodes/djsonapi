@@ -1,0 +1,10 @@
+*.pyc
+*.pyo
+.DS_Store
+local_settings.py
+.idea/
+/media/
+*.sqlite3
+.coverage
+/dist/
+/djsonapi.egg-info/
