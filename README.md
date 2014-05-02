@@ -35,6 +35,7 @@ def public_user_serializer(obj):
 @api.post_form(forms.UserUpdateForm) # validates post/put data with form
 def profile(request, form):
     if form:
+        # form is guaranteed to be valid here
         user = form.save()
     else:
         user = request.user
