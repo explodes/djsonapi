@@ -1,3 +1,5 @@
+##### v0.9.9
+
 Django JSON API Made Simple
 ===========================
 
