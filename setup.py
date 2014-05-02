@@ -11,8 +11,6 @@ rel = lambda *x: os.path.abspath(os.path.join(os.path.dirname(__file__), *x))
 with open(rel("./README.txt")) as readme:
     long_description = readme.read()
 
-VERSION = (0, 1, 0)
-
 setup(
     name="djsonapi",
     version=".".join(map(str, __version__)),

@@ -1,4 +1,4 @@
-##### v0.9.9
+##### v1.0.0
 
 Django JSON API Made Simple
 ===========================
@@ -55,7 +55,14 @@ The response could look like:
 }
 ```
 
-##### TODO: Better documentation for y'all
+For more code, see the example app.
+
+*Important: make sure your serializers get loaded.*
+Easiest way to do this is put them in a file called serial.py and in your app's __init__.py, load via
+```
+## myproj.myapp.__init__.py
+from myproj.myapp.serial import *
+```
 
 
 ## `djsonapi.serial`
