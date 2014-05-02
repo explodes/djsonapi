@@ -12,7 +12,7 @@ with open(rel("./README.txt")) as readme:
     long_description = readme.read()
 
 setup(
-    name="djsonapi",
+    name="django-jsonapi",
     version=".".join(map(str, __version__)),
     description="Non-prohibitive, JSON API library for Django.",
     long_description=long_description,
