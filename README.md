@@ -1,3 +1,5 @@
+##### Beta, do not use yet
+
 Django JSON API Made Simple
 ===========================
 
