@@ -64,13 +64,13 @@ def _get_serialize_func(klass, mode):
         return serializer_func
 
 
-def _serialize_item(model_instance, **kwargs):
+def _serialize_item(model_instance, mode, **kwargs):
     """
     Serialize an individual item.
 
     Optional `kwargs` for the serializer function are passed down.
     """
-    serializer_func = _get_serialize_func(model_instance.__class__)
+    serializer_func = _get_serialize_func(model_instance.__class__, mode)
     return serializer_func(model_instance, **kwargs)
 
 
@@ -124,11 +124,11 @@ def serialize(items, mode=None, **kwargs):
     """
     if hasattr(items, "__len__"):
         # For each item, serialize that mofo.
-        mappable = lambda item: _serialize_item(item, mode=mode, **kwargs)
+        mappable = lambda item: _serialize_item(item, mode, **kwargs)
         return map(mappable, items)
     else:
         # Serialize that mofo.
-        return _serialize_item(items, mode=mode, **kwargs)
+        return _serialize_item(items, mode, **kwargs)
 
 
 def iserialize(items, mode=None, **kwargs):
@@ -137,7 +137,7 @@ def iserialize(items, mode=None, **kwargs):
 
     Optional `kwargs` for the serializer function are passed down.
     """
-    mappable = lambda item: _serialize_item(item, mode=mode, **kwargs)
+    mappable = lambda item: _serialize_item(item, mode, **kwargs)
     return itertools.imap(mappable, items)
 
 
