@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+coverage run --source="djsonapi" manage.py test
+coverage report -m

@@ -219,16 +219,22 @@ def post_form(form_klass, form_method_types=FORM_METHOD_TYPES, add=lambda reques
         @wraps(func)
         def wrapper(request, *args, **kwargs):
             if request.method in form_method_types:
+
+                # Retrieve POST/PUT data from kwargs
                 kwarg_name = request.method.lower()
                 post = kwargs.pop(kwarg_name, None)
+
+                # Add extras
                 add_this = add(request)
                 post.update(add_this)
 
+                # Create form
                 if isinstance(form_klass, type(lambda: None)) and form_klass.__name__ == "<lambda>":
                     form = form_klass(request, post)
                 else:
                     form = form_klass(data=post)
 
+                # Validate form
                 if form.is_valid():
                     kwargs["form"] = form
                     return func(request, *args, **kwargs)
