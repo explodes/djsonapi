@@ -369,3 +369,130 @@ class TestSerialization(TestCase):
         self.assertEqual(d.get('field_3', not_found), not_found)
         self.assertEqual(d.get('_debug_pk', not_found), None)
         self.assertEqual(d.get('_debug_model', not_found), "testapp.TestModel")
+
+    def test_dump(self):
+        try:
+            from cStringIO import StringIO
+        except ImportError:
+            from StringIO import StringIO
+        from djsonapi import serial
+
+        io = StringIO()
+
+        data = {"test": "test"}
+        serial.dump(data, io)
+        io_out = io.getvalue()
+        reg_out = serial.dumps(data)
+
+        self.assertEqual(io_out, reg_out)
+
+    def test_serializer(self):
+        from djsonapi import serial
+
+        class Foop(object):
+
+            flim = 'flam'
+
+            def __init__(self):
+                self.flop = 'flap'
+
+            def foof(self):
+                return 'foop!'
+
+        @serial.serializer(Foop)
+        def serialize_foop(obj, **kwargs):
+            return serial.serialize_fields(obj, ('flim', 'flop', 'foof'))
+
+        data = serial.serialize(Foop())
+
+        self.assertEqual(data['flim'], 'flam')
+        self.assertEqual(data['flop'], 'flap')
+        self.assertEqual(data['foof'], 'foop!')
+
+    def test_serializer_no_class(self):
+        from djsonapi import serial
+
+        class Foop(object):
+
+            flim = 'flam'
+
+            def __init__(self):
+                self.flop = 'flap'
+
+            def foof(self):
+                return 'foop!'
+
+        self.assertRaises(serial.NoSerializerFound, serial.serialize, Foop())
+
+    def test_serializer_no_mode(self):
+        from djsonapi import serial
+
+        class Foop(object):
+
+            flim = 'flam'
+
+            def __init__(self):
+                self.flop = 'flap'
+
+            def foof(self):
+                return 'foop!'
+
+        @serial.serializer(Foop)
+        def serialize_foop(obj, **kwargs):
+            return serial.serialize_fields(obj, ('flim', 'flop', 'foof'))
+
+        self.assertRaises(serial.NoSerializerFound, serial.serialize, Foop(), mode='fiippy')
+
+    def test_serializer_list(self):
+        from djsonapi import serial
+
+        class Foop(object):
+
+            flim = 'flam'
+
+            def __init__(self):
+                self.flop = 'flap'
+
+            def foof(self):
+                return 'foop!'
+
+        @serial.serializer(Foop)
+        def serialize_foop(obj, **kwargs):
+            return serial.serialize_fields(obj, ('flim', 'flop', 'foof'))
+
+        data_items = serial.serialize([Foop() for x in xrange(10)])
+        self.assertEqual(len(data_items), 10)
+        for data in data_items:
+            self.assertEqual(data['flim'], 'flam')
+            self.assertEqual(data['flop'], 'flap')
+            self.assertEqual(data['foof'], 'foop!')
+
+    def test_serializer_gen(self):
+        from djsonapi import serial
+
+        class Foop(object):
+
+            flim = 'flam'
+
+            def __init__(self):
+                self.flop = 'flap'
+
+            def foof(self):
+                return 'foop!'
+
+        @serial.serializer(Foop)
+        def serialize_foop(obj, **kwargs):
+            return serial.serialize_fields(obj, ('flim', 'flop', 'foof'))
+
+        data_items = serial.iserialize([Foop() for x in xrange(10)])
+        self.assertTrue(callable(data_items.next))
+        for data in data_items:
+            self.assertEqual(data['flim'], 'flam')
+            self.assertEqual(data['flop'], 'flap')
+            self.assertEqual(data['foof'], 'foop!')
+
+
+
+
+
+

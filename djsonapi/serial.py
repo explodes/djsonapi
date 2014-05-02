@@ -16,7 +16,7 @@ def dump(obj, fp, **kwargs):
     `args` and `kwargs` are the same as a regular json.dumps call, except that `kwargs["cls"]` is modified.
     """
     kwargs["cls"] = DjangoJSONEncoder
-    return json.dumps(obj, fp, **kwargs)
+    return json.dump(obj, fp, **kwargs)
 
 
 def dumps(obj, **kwargs):
