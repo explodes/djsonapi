@@ -60,8 +60,9 @@ The response could look like:
 
 For more code, see the example app.
 
-*Important: make sure your serializers get loaded.*
-Easiest way to do this is put them in a file called serial.py and in your app's __init__.py, load via
+**Important: make sure your serializers get loaded.**
+
+Easiest way to do this is put them in a file called serial.py and in your app's `__init__.py`, load via
 ```
 ## myproj.myapp.__init__.py
 from myproj.myapp.serial import *
