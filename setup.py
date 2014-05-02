@@ -13,18 +13,24 @@ with open(rel("./README.txt")) as readme:
 
 VERSION = (0, 1, 0)
 
-setup(name="djsonapi",
-      version=".".join(map(str, __version__)),
-      description="Non-prohibitive, JSON API library for Django.",
-      long_description=long_description,
-      author="Evan Leis",
-      author_email="evan.explodes@gmail.com",
-      url="https://github.com/explodes/djsonapi",
-      download_url="https://pypi.python.org/pypi/djsonapi/",
-      package_data={},
-      packages=("djsonapi",),
-      license="MIT",
-      requires=[
-          "django (>=1.5)",
-      ]
+setup(
+    name="djsonapi",
+    version=".".join(map(str, __version__)),
+    description="Non-prohibitive, JSON API library for Django.",
+    long_description=long_description,
+    author="Evan Leis",
+    author_email="evan.explodes@gmail.com",
+    url="https://github.com/explodes/djsonapi",
+    download_url="https://pypi.python.org/pypi/djsonapi/",
+    package_data={},
+    license="MIT",
+    classifiers=(
+        "Development Status :: 4 - Beta",
+        "Framework :: Django",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+    ),
+    packages=(
+        "djsonapi",
+    ),
 )
