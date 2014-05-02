@@ -17,6 +17,8 @@ The API framework uses Django Forms, so no more bull trying to validate input a 
 
 How about this?
 
+First: `pip install django-jsonapi`, ok now:
+
 
 ```language=python
 from djsonapi import api, serial
