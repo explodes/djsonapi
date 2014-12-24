@@ -67,6 +67,13 @@ def invalid(message, **body):
     return error(400, message=message, **body)
 
 
+def invalid_form(form):
+    """
+    Return a JSON response containing form error information.
+    """
+    return invalid("Invalid Form", errors=form.errors)
+
+
 def exception(exc, debug=settings.DEBUG, log_error=True, **body):
     """
     Return a JSON response with a 500 status code, "error" flag, message, and optional body.
@@ -76,7 +83,8 @@ def exception(exc, debug=settings.DEBUG, log_error=True, **body):
 
     Optionally, the error can be logged using the "djsonapi" logger.
     """
-    log.error("Returning internal server error", exc_info=True) if log_error else None
+    log.error("Returning internal server error",
+              exc_info=True) if log_error else None
     if debug:
         return error(500, "DEBUG: %s" % (str(exc)))
     else:
@@ -96,7 +104,8 @@ def catch500(log_error=True):
             try:
                 return func(request, *args, **kwargs)
             except Exception as exc:
-                return exception(exc, args=args, kwargs=kwargs, log_error=log_error)
+                return exception(exc, args=args, kwargs=kwargs,
+                                 log_error=log_error)
 
         return wrapper
 
@@ -168,9 +177,12 @@ def required_method(*methods, **kwargs):
                         except Exception as exc:
                             # unless it doesnt parse
                             if debug:
-                                return invalid("Invalid JSON %s" % request.method, exception=str(exc))
+                                return invalid(
+                                    "Invalid JSON %s" % request.method,
+                                    exception=str(exc))
                             else:
-                                return invalid("Invalid JSON %s" % request.method)
+                                return invalid(
+                                    "Invalid JSON %s" % request.method)
                     else:
                         post = {}
                     # and return the result
@@ -188,7 +200,8 @@ def required_method(*methods, **kwargs):
     return required_methods_decorator
 
 
-def post_form(form_klass, form_method_types=FORM_METHOD_TYPES, add=lambda request: {}):
+def post_form(form_klass, form_method_types=FORM_METHOD_TYPES,
+              add=lambda request: {}):
     """
     Intercept posts/puts and send that data to a form.
 
@@ -229,7 +242,8 @@ def post_form(form_klass, form_method_types=FORM_METHOD_TYPES, add=lambda reques
                 post.update(add_this)
 
                 # Create form
-                if isinstance(form_klass, type(lambda: None)) and form_klass.__name__ == "<lambda>":
+                if isinstance(form_klass, type(
+                        lambda: None)) and form_klass.__name__ == "<lambda>":
                     form = form_klass(request, post)
                 else:
                     form = form_klass(data=post)
@@ -239,7 +253,7 @@ def post_form(form_klass, form_method_types=FORM_METHOD_TYPES, add=lambda reques
                     kwargs["form"] = form
                     return func(request, *args, **kwargs)
                 else:
-                    return invalid("Invalid Form", errors=form.errors)
+                    return invalid_form(form)
             else:
                 return func(request, *args, **kwargs)
 
