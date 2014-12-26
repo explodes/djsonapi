@@ -9,7 +9,7 @@ from djsonapi import serial
 
 log = logging.getLogger("djsonapi")
 
-FORM_METHOD_TYPES = ["POST", "PUT"]
+FORM_METHOD_TYPES = ["POST", "PUT", "PATCH"]
 
 ## JSON Builder ##
 
