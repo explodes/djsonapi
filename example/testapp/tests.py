@@ -293,6 +293,30 @@ class TestAPI(TestCase):
         self.assertEqual(response_data["body"]["data"]["field"], 123)
 
 
+    def test_post_form_lambda_dict(self):
+        from django import forms
+        from djsonapi import api
+        from djsonapi import serial
+
+        class TestForm(forms.Form):
+            field = forms.IntegerField()
+
+        @api.required_method("POST")
+        @api.post_form(lambda request, data: {"POST": TestForm(data=data)})
+        def view(request, form=None):
+            return api.ok(data=form.cleaned_data)
+
+        factory = RequestFactory()
+        request = factory.post("/", content_type="application/json", data=serial.dumps({"field": 123}))
+        response = view(request)
+        not_found = object()
+        self.assertEqual(response.status_code, 200)
+        response_data = serial.loads(response.content)
+        self.assertEqual(response_data["ok"], True)
+        self.assertEqual(response_data.get("message", not_found), not_found)
+        self.assertEqual(response_data["body"]["data"]["field"], 123)
+
+
     def test_post_form_get(self):
         from django import forms
         from djsonapi import api

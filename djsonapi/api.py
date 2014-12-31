@@ -245,6 +245,8 @@ def post_form(form_klass, form_method_types=FORM_METHOD_TYPES,
                 if isinstance(form_klass, type(
                         lambda: None)) and form_klass.__name__ == "<lambda>":
                     form = form_klass(request, post)
+                    if isinstance(form, dict):
+                        form = form[request.method]
                 else:
                     form = form_klass(data=post)
 
