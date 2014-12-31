@@ -46,6 +46,20 @@ def error(status, message=None, **body):
     return json_response(status, False, message, **body)
 
 
+def error400(**body):
+    """
+    Return a JSON response with a 400 status code, "error" flag, "Not Found" message, and optional body.
+    """
+    return json_response(400, False, "Bad Request", **body)
+
+
+def error403(**body):
+    """
+    Return a JSON response with a 403 status code, "error" flag, "Not Found" message, and optional body.
+    """
+    return json_response(403, False, "Forbidden", **body)
+
+
 def error404(**body):
     """
     Return a JSON response with a 404 status code, "error" flag, "Not Found" message, and optional body.
