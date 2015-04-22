@@ -6,7 +6,6 @@ from django.conf import settings
 
 from djsonapi import serial
 
-
 log = logging.getLogger("djsonapi")
 
 FORM_METHOD_TYPES = ["POST", "PUT", "PATCH"]
@@ -248,8 +247,13 @@ def post_form(form_klass, form_method_types=FORM_METHOD_TYPES,
             if request.method in form_method_types:
 
                 # Retrieve POST/PUT data from kwargs
-                kwarg_name = request.method.lower()
-                post = kwargs.pop(kwarg_name, None)
+                if request.method in FORM_METHOD_TYPES:
+                    kwarg_name = request.method.lower()
+                    post = kwargs.pop(kwarg_name, None)
+                else:
+                    # GET
+                    post = dict(request.GET.iteritems())
+                    print "GET", post
 
                 # Add extras
                 add_this = add(request)
