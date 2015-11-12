@@ -253,7 +253,6 @@ def post_form(form_klass, form_method_types=FORM_METHOD_TYPES,
                 else:
                     # GET
                     post = dict(request.GET.iteritems())
-                    print "GET", post
 
                 # Add extras
                 add_this = add(request)
