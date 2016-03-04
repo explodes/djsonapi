@@ -124,8 +124,7 @@ def serialize(items, mode=None, **kwargs):
     """
     if hasattr(items, "__len__"):
         # For each item, serialize that mofo.
-        mappable = lambda item: _serialize_item(item, mode, **kwargs)
-        return map(mappable, items)
+        return [_serialize_item(item, mode, **kwargs) for item in items]
     else:
         # Serialize that mofo.
         return _serialize_item(items, mode, **kwargs)
